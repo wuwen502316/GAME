@@ -473,9 +473,9 @@
                         </div>
                         <div class="sidebar-label">📋 选择游戏</div>
                         <select id="sidebarSelect">
-                                <option value=1>富甲天下</option>
-                                <option value=2>FC勇者斗恶龙2</option>
-                                <option value=3>FC勇者斗恶龙2改</option>
+                                <option value=0>富甲天下</option>
+                                <option value=1>FC勇者斗恶龙2</option>
+                                <option value=2>FC勇者斗恶龙2改</option>
                         </select>
                         <button id="sidebarLoadBtn">确定</button>
                         <div style="margin-top:14px; text-align:center;" id="emulator‌Loaded">
@@ -525,6 +525,9 @@
                  EJS_gameUrl = GAMES[value].url;
                  EJS_gameName = GAMES[value].gameName;
                  setTimeout(()=>{sidebar.classList.add('hidden-sidebar');},500)
+				const __s = document.creteElement("script);
+				__s.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
+				document.querySelect('body').appendChild(__s);						  
             });
 
             // 侧边栏 "加载游戏" 按钮
@@ -559,7 +562,7 @@
             showSidebarBtn.addEventListener('click', showSidebar);
    
         </script>
-        <script src="https://cdn.emulatorjs.org/stable/data/loader.js" id="loaderScript"></script>
+        <!-- <script src="https://cdn.emulatorjs.org/stable/data/loader.js" id="loaderScript"></script> -->
         <script>
                 const __emulator‌Loaded = document.getElementById('emulator‌Loaded');
                 setTimeout(()=>{__emulator‌Loaded.style.display = "block";},500);
