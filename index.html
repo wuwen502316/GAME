@@ -1,25 +1,925 @@
-<html>
-    <head>
-        <!--HTML file auto generated using EmulatorJS codehelper-->
-        <style>
-            body, html {
-                margin: 0;
-                padding: 0;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FC模拟器 - 游戏切换器</title>
+    <style>
+        /* ---------- 全局重置 ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0d0d1a;
+            font-family: 'Segoe UI', 'PingFang SC', Roboto, Arial, sans-serif;
+        }
+
+        /* ---------- 模拟器容器 ---------- */
+        #game-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        #game {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ---------- 全屏蒙版 ---------- */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 30, 0.88);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        #overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* ---------- 主卡片 ---------- */
+        .overlay-card {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 24px;
+            padding: 36px 44px 40px 44px;
+            max-width: 560px;
+            width: 90%;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(233, 69, 96, 0.15);
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .overlay-card .logo {
+            font-size: 42px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .overlay-card h2 {
+            color: #fff;
+            font-weight: 600;
+            font-size: 24px;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .overlay-card .sub {
+            color: #8899bb;
+            font-size: 14px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 18px;
+        }
+
+        /* ---------- 下拉菜单 ---------- */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+        .control-group label {
+            color: #c8d0e0;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        .control-group label .icon {
+            font-size: 18px;
+        }
+        #gameSelect {
+            padding: 12px 40px 12px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            border: 2px solid #2a3a6a;
+            border-radius: 12px;
+            background: #0f1a3a;
+            color: #eef;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23e94560' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            width: 100%;
+            text-align: center;
+            text-align-last: center;
+        }
+        #gameSelect:hover {
+            border-color: #e94560;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.15);
+        }
+        #gameSelect:focus {
+            border-color: #ff6b81;
+            box-shadow: 0 0 28px rgba(233, 69, 96, 0.25);
+        }
+        #gameSelect option {
+            background: #16213e;
+            color: #eef;
+            padding: 8px 12px;
+        }
+
+        /* ---------- 按钮B ---------- */
+        #loadBtn {
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
+            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.35);
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+        #loadBtn::before {
+            content: '▶';
+            font-size: 14px;
+        }
+        #loadBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(233, 69, 96, 0.5);
+            filter: brightness(1.05);
+        }
+        #loadBtn:active {
+            transform: translateY(0px);
+            box-shadow: 0 4px 16px rgba(233, 69, 96, 0.3);
+        }
+        #loadBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 4px 16px rgba(233, 69, 96, 0.15);
+        }
+
+        /* ---------- 侧边栏切换按钮 ---------- */
+        .sidebar-toggle-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 16px;
+            gap: 12px;
+            align-items: center;
+        }
+        #toggleSidebarBtn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #aab;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        #toggleSidebarBtn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+        #toggleSidebarBtn .arrow {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+        #toggleSidebarBtn .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        /* ---------- 侧边栏 (边目录A) ---------- */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 300px;
+            max-width: 80vw;
+            background: linear-gradient(180deg, #0f0f2a, #1a1a3e);
+            box-shadow: 4px 0 40px rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            transform: translateX(0);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            padding: 28px 22px 30px 22px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(233, 69, 96, 0.15);
+            overflow-y: auto;
+        }
+        #sidebar.hidden-sidebar {
+            transform: translateX(-110%);
+        }
+
+        #sidebar .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        #sidebar .sidebar-header h3 {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        #sidebar .sidebar-header h3 span {
+            color: #e94560;
+        }
+        #sidebar .sidebar-close {
+            background: none;
+            border: none;
+            color: #667;
+            font-size: 26px;
+            cursor: pointer;
+            padding: 0 6px;
+            transition: color 0.3s, transform 0.3s;
+            line-height: 1;
+        }
+        #sidebar .sidebar-close:hover {
+            color: #e94560;
+            transform: rotate(90deg);
+        }
+
+        #sidebar .sidebar-label {
+            color: #99aabb;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #sidebar #sidebarSelect {
+            padding: 11px 36px 11px 16px;
+            font-size: 15px;
+            font-weight: 500;
+            border: 2px solid #2a3a6a;
+            border-radius: 10px;
+            background: #0f1a3a;
+            color: #eef;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23e94560' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            width: 100%;
+            margin-bottom: 18px;
+        }
+        #sidebar #sidebarSelect:hover {
+            border-color: #e94560;
+        }
+        #sidebar #sidebarSelect:focus {
+            border-color: #ff6b81;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.15);
+        }
+        #sidebar #sidebarSelect option {
+            background: #16213e;
+            color: #eef;
+        }
+
+        #sidebar #sidebarLoadBtn {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
+            box-shadow: 0 6px 24px rgba(233, 69, 96, 0.3);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        #sidebar #sidebarLoadBtn::before {
+            content: '🎮';
+            font-size: 16px;
+        }
+        #sidebar #sidebarLoadBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(233, 69, 96, 0.4);
+            filter: brightness(1.05);
+        }
+        #sidebar #sidebarLoadBtn:active {
+            transform: translateY(0px);
+        }
+
+        #sidebar .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #556;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* ---------- 侧边栏显示按钮（当侧边栏隐藏时） ---------- */
+        #showSidebarBtn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9998;
+            background: rgba(233, 69, 96, 0.85);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(233, 69, 96, 0.35);
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        #showSidebarBtn:hover {
+            transform: scale(1.08);
+            background: rgba(233, 69, 96, 1);
+            box-shadow: 0 8px 32px rgba(233, 69, 96, 0.5);
+        }
+        #showSidebarBtn .tooltip {
+            position: absolute;
+            left: 58px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        #showSidebarBtn:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* ---------- 状态指示 ---------- */
+        #statusBadge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.06);
+            color: #8899bb;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-top: 14px;
+            transition: all 0.4s;
+        }
+        #statusBadge.loading {
+            color: #ffd93d;
+            border-color: #ffd93d;
+            animation: pulse 1.2s ease-in-out infinite;
+        }
+        #statusBadge.ready {
+            color: #6bcb77;
+            border-color: #6bcb77;
+        }
+        #statusBadge.error {
+            color: #e94560;
+            border-color: #e94560;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
             }
-        </style>
-    </head>
-    <body>
-        <div style="width:100%;height:100%;max-width:100%">
-            <div id="game"></div>
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        /* ---------- 响应式 ---------- */
+        @media (max-width: 640px) {
+            .overlay-card {
+                padding: 28px 20px 32px 20px;
+            }
+            .overlay-card h2 {
+                font-size: 20px;
+            }
+            #sidebar {
+                width: 85vw;
+                padding: 20px 16px 24px 16px;
+            }
+            #sidebar .sidebar-header h3 {
+                font-size: 17px;
+            }
+            #loadBtn {
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+            #showSidebarBtn {
+                width: 42px;
+                height: 42px;
+                font-size: 20px;
+                top: 14px;
+                left: 14px;
+            }
+        }
+        @media (max-width: 400px) {
+            .overlay-card {
+                padding: 20px 14px 24px 14px;
+                border-radius: 16px;
+            }
+            .overlay-card .logo {
+                font-size: 32px;
+            }
+            .overlay-card h2 {
+                font-size: 17px;
+            }
+            #gameSelect,
+            #sidebar #sidebarSelect {
+                font-size: 14px;
+                padding: 10px 32px 10px 14px;
+            }
+            #loadBtn,
+            #sidebar #sidebarLoadBtn {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== 模拟器容器 ========== -->
+    <div id="game-wrapper">
+        <div id="game"></div>
+    </div>
+
+    <!-- ========== 侧边栏 (边目录A) ========== -->
+    <div id="sidebar" class="hidden-sidebar">
+        <div class="sidebar-header">
+            <h3>🎮 游戏<span>目录</span></h3>
+            <button class="sidebar-close" id="sidebarCloseBtn" title="关闭侧边栏">✕</button>
         </div>
-        <script>
-            EJS_player = "#game";
-            EJS_core = "nes";
-            EJS_gameName = "fujiatianxia";
-            EJS_color = "#0064ff";
-            EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-            EJS_gameUrl = "7100726.nes";
-        </script>
-        <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
-    </body>
+
+        <div class="sidebar-label">📋 选择游戏</div>
+        <select id="sidebarSelect">
+            <option value="7100726.nes|富甲天下">富甲天下</option>
+            <option value="dq2_p|FC勇者斗恶龙2">FC勇者斗恶龙2</option>
+            <option value="dq2.nes|FC勇者斗恶龙2改">FC勇者斗恶龙2改</option>
+        </select>
+
+        <button id="sidebarLoadBtn">加载游戏</button>
+
+        <div style="margin-top:14px; text-align:center;">
+            <span id="statusBadge">● 就绪</span>
+        </div>
+
+        <div class="sidebar-footer">
+            EmulatorJS · 点击加载切换游戏
+        </div>
+    </div>
+
+    <!-- ========== 显示侧边栏按钮（侧边栏隐藏时出现） ========== -->
+    <button id="showSidebarBtn" title="打开游戏目录">
+        ☰
+        <span class="tooltip">打开游戏目录</span>
+    </button>
+
+    <!-- ========== 全屏蒙版 ========== -->
+    <div id="overlay">
+        <div class="overlay-card">
+            <span class="logo">🕹️</span>
+            <h2>FC 模拟器</h2>
+            <div class="sub">选择游戏，即刻开玩</div>
+
+            <div class="control-group">
+                <label>
+                    <span class="icon">🎯</span> 选择游戏
+                </label>
+                <select id="gameSelect">
+                    <option value="7100726.nes|富甲天下">富甲天下</option>
+                    <option value="dq2_p|FC勇者斗恶龙2">FC勇者斗恶龙2</option>
+                    <option value="dq2.nes|FC勇者斗恶龙2改">FC勇者斗恶龙2改</option>
+                </select>
+            </div>
+
+            <button id="loadBtn">加载游戏</button>
+
+            <div id="statusBadge" style="margin-top:16px;">● 就绪</div>
+
+            <div class="sidebar-toggle-wrap">
+                <button id="toggleSidebarBtn">
+                    <span class="arrow" id="sidebarArrow">◀</span> 边目录
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            //  1. 游戏配置
+            // ============================================================
+            const GAMES = [
+                { url: '7100726.nes', name: '富甲天下' },
+                { url: 'dq2_p', name: 'FC勇者斗恶龙2' },
+                { url: 'dq2.nes', name: 'FC勇者斗恶龙2改' }
+            ];
+
+            // ============================================================
+            //  2. DOM 引用
+            // ============================================================
+            const overlay = document.getElementById('overlay');
+            const gameContainer = document.getElementById('game');
+            const gameSelect = document.getElementById('gameSelect');
+            const loadBtn = document.getElementById('loadBtn');
+            const statusBadge = document.getElementById('statusBadge');
+
+            // 侧边栏
+            const sidebar = document.getElementById('sidebar');
+            const sidebarSelect = document.getElementById('sidebarSelect');
+            const sidebarLoadBtn = document.getElementById('sidebarLoadBtn');
+            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+            const showSidebarBtn = document.getElementById('showSidebarBtn');
+            const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+            const sidebarArrow = document.getElementById('sidebarArrow');
+
+            // ============================================================
+            //  3. 状态管理
+            // ============================================================
+            let currentGameUrl = null;
+            let isLoading = false;
+            let sidebarVisible = false;
+
+            // localStorage 键名
+            const STORAGE_KEY = 'fc_emulator_game';
+
+            // ============================================================
+            //  4. 工具函数
+            // ============================================================
+            function setStatus(text, type) {
+                statusBadge.textContent = text;
+                statusBadge.className = '';
+                if (type) {
+                    statusBadge.classList.add(type);
+                }
+                // 同步侧边栏状态
+                const sidebarStatus = document.querySelector('#sidebar .ejs_status_badge') || document
+                .querySelector('#sidebar #statusBadge');
+                if (sidebarStatus) {
+                    sidebarStatus.textContent = text;
+                    sidebarStatus.className = '';
+                    if (type) {
+                        sidebarStatus.classList.add(type);
+                    }
+                }
+            }
+
+            function setLoadingState(loading) {
+                isLoading = loading;
+                loadBtn.disabled = loading;
+                sidebarLoadBtn.disabled = loading;
+                if (loading) {
+                    setStatus('⏳ 加载中...', 'loading');
+                } else {
+                    setStatus('✅ 就绪', 'ready');
+                }
+            }
+
+            // 从 localStorage 读取游戏
+            function getStoredGame() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (parsed && parsed.url && parsed.name) {
+                            return parsed;
+                        }
+                    }
+                } catch (_) { /* ignore */ }
+                return null;
+            }
+
+            // 保存游戏到 localStorage
+            function storeGame(url, name) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify({ url, name }));
+                } catch (_) { /* ignore */ }
+            }
+
+            // 获取当前选中的游戏（从下拉框）
+            function getSelectedGame(selectEl) {
+                const val = selectEl.value;
+                const parts = val.split('|');
+                if (parts.length === 2) {
+                    return { url: parts[0], name: parts[1] };
+                }
+                return null;
+            }
+
+            // 同步所有下拉框的值
+            function syncSelects(url) {
+                const value = url || '';
+                // 找到匹配的 option
+                const allOptions = document.querySelectorAll('#gameSelect option, #sidebarSelect option');
+                let targetValue = null;
+                for (const opt of allOptions) {
+                    const parts = opt.value.split('|');
+                    if (parts.length === 2 && parts[0] === value) {
+                        targetValue = opt.value;
+                        break;
+                    }
+                }
+                if (targetValue) {
+                    gameSelect.value = targetValue;
+                    sidebarSelect.value = targetValue;
+                } else {
+                    // 默认选中第一个
+                    const first = document.querySelector('#gameSelect option');
+                    if (first) {
+                        gameSelect.value = first.value;
+                        sidebarSelect.value = first.value;
+                    }
+                }
+            }
+
+            // 获取当前选中的游戏（统一从 gameSelect 读取）
+            function getCurrentSelected() {
+                return getSelectedGame(gameSelect);
+            }
+
+            // ============================================================
+            //  5. 核心：加载游戏（通过刷新页面）
+            // ============================================================
+            function loadGame(url, name) {
+                if (isLoading) return;
+                if (!url || !name) {
+                    setStatus('❌ 参数错误', 'error');
+                    return;
+                }
+
+                // 如果当前已经是这个游戏，不重复加载
+                if (currentGameUrl === url) {
+                    setStatus('✅ 已加载: ' + name, 'ready');
+                    // 关闭蒙版
+                    hideOverlay();
+                    return;
+                }
+
+                // 保存到 localStorage
+                storeGame(url, name);
+
+                // 设置状态
+                setLoadingState(true);
+                setStatus('⏳ 切换游戏...', 'loading');
+
+                // 刷新页面，让页面重新加载时读取 localStorage
+                // 用 setTimeout 让状态更新后再刷新
+                setTimeout(function() {
+                    window.location.reload();
+                }, 300);
+            }
+
+            // ============================================================
+            //  6. 蒙版控制
+            // ============================================================
+            function hideOverlay() {
+                overlay.classList.add('hidden');
+            }
+
+            function showOverlay() {
+                overlay.classList.remove('hidden');
+            }
+
+            // ============================================================
+            //  7. 侧边栏控制
+            // ============================================================
+            function showSidebar() {
+                sidebar.classList.remove('hidden-sidebar');
+                sidebarVisible = true;
+                showSidebarBtn.style.display = 'none';
+                sidebarArrow.textContent = '◀';
+                sidebarArrow.classList.remove('open');
+            }
+
+            function hideSidebar() {
+                sidebar.classList.add('hidden-sidebar');
+                sidebarVisible = false;
+                showSidebarBtn.style.display = 'flex';
+                sidebarArrow.textContent = '▶';
+                sidebarArrow.classList.add('open');
+            }
+
+            function toggleSidebar() {
+                if (sidebarVisible) {
+                    hideSidebar();
+                } else {
+                    showSidebar();
+                }
+            }
+
+            // ============================================================
+            //  8. 页面初始化
+            // ============================================================
+            function init() {
+                // 8.1 读取存储的游戏
+                const stored = getStoredGame();
+
+                // 8.2 如果有存储的游戏，设置下拉框
+                if (stored) {
+                    syncSelects(stored.url);
+                    currentGameUrl = stored.url;
+                    setStatus('✅ 已加载: ' + stored.name, 'ready');
+                } else {
+                    // 默认选中第一个
+                    const first = GAMES[0];
+                    if (first) {
+                        syncSelects(first.url);
+                        currentGameUrl = first.url;
+                        // 存储默认游戏
+                        storeGame(first.url, first.name);
+                        setStatus('✅ 就绪', 'ready');
+                    }
+                }
+
+                // 8.3 配置 EmulatorJS
+                const selected = getCurrentSelected();
+                if (selected) {
+                    window.EJS_player = '#game';
+                    window.EJS_core = 'nes';
+                    window.EJS_gameName = selected.name;
+                    window.EJS_color = '#0064ff';
+                    window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+                    window.EJS_gameUrl = selected.url;
+                    // 保存当前 URL
+                    currentGameUrl = selected.url;
+                }
+
+                // 8.4 加载 loader.js（如果尚未加载）
+                const existingLoader = document.querySelector(
+                    'script[src="https://cdn.emulatorjs.org/stable/data/loader.js"]'
+                );
+                if (!existingLoader) {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.emulatorjs.org/stable/data/loader.js';
+                    script.async = true;
+                    script.onload = function() {
+                        setStatus('✅ 模拟器已加载', 'ready');
+                        // 延迟隐藏蒙版
+                        setTimeout(function() {
+                            hideOverlay();
+                        }, 800);
+                    };
+                    script.onerror = function() {
+                        setStatus('❌ 加载失败，请刷新重试', 'error');
+                        setLoadingState(false);
+                    };
+                    document.body.appendChild(script);
+                } else {
+                    // loader 已存在，直接使用
+                    setStatus('✅ 模拟器已就绪', 'ready');
+                    setTimeout(function() {
+                        hideOverlay();
+                    }, 600);
+                }
+
+                // 8.5 默认侧边栏隐藏
+                hideSidebar();
+
+                // 8.6 如果蒙版被意外关闭，重新显示
+                // （但用户可以通过点击页面其他区域关闭蒙版？不需要，我们通过按钮控制）
+            }
+
+            // ============================================================
+            //  9. 事件绑定
+            // ============================================================
+
+            // 9.1 主面板 "加载游戏" 按钮
+            loadBtn.addEventListener('click', function() {
+                const selected = getCurrentSelected();
+                if (selected) {
+                    loadGame(selected.url, selected.name);
+                } else {
+                    setStatus('❌ 请选择游戏', 'error');
+                }
+            });
+
+            // 9.2 侧边栏 "加载游戏" 按钮
+            sidebarLoadBtn.addEventListener('click', function() {
+                const selected = getSelectedGame(sidebarSelect);
+                if (selected) {
+                    // 同步主下拉框
+                    syncSelects(selected.url);
+                    loadGame(selected.url, selected.name);
+                } else {
+                    setStatus('❌ 请选择游戏', 'error');
+                }
+            });
+
+            // 9.3 主下拉框变化 - 同步侧边栏
+            gameSelect.addEventListener('change', function() {
+                const selected = getCurrentSelected();
+                if (selected) {
+                    syncSelects(selected.url);
+                }
+            });
+
+            // 9.4 侧边栏下拉框变化 - 同步主下拉框
+            sidebarSelect.addEventListener('change', function() {
+                const selected = getSelectedGame(sidebarSelect);
+                if (selected) {
+                    syncSelects(selected.url);
+                }
+            });
+
+            // 9.5 切换侧边栏
+            toggleSidebarBtn.addEventListener('click', toggleSidebar);
+            sidebarCloseBtn.addEventListener('click', hideSidebar);
+            showSidebarBtn.addEventListener('click', showSidebar);
+
+            // 9.6 点击蒙版背景不关闭（由按钮控制）
+            // 但点击卡片外部不关闭，防止误触
+
+            // 9.7 键盘快捷键：ESC 关闭侧边栏
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && sidebarVisible) {
+                    hideSidebar();
+                }
+            });
+
+            // 9.8 如果游戏已经加载，点击蒙版可以隐藏（但通过按钮控制更安全）
+            // 我们允许点击蒙版背景关闭蒙版，但需要判断是否在卡片内
+            overlay.addEventListener('click', function(e) {
+                // 如果点击的是蒙版本身（背景），且游戏已加载，则关闭蒙版
+                if (e.target === overlay && !isLoading) {
+                    // 检查游戏是否已加载（有 canvas）
+                    const hasCanvas = gameContainer.querySelector('canvas');
+                    if (hasCanvas) {
+                        hideOverlay();
+                    }
+                }
+            });
+
+            // ============================================================
+            //  10. 启动
+            // ============================================================
+            // 页面加载完成后初始化
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+            // 暴露一些调试接口
+            window.__fc = {
+                games: GAMES,
+                loadGame: loadGame,
+                currentGame: function() { return currentGameUrl; },
+                showSidebar: showSidebar,
+                hideSidebar: hideSidebar,
+                toggleSidebar: toggleSidebar,
+                showOverlay: showOverlay,
+                hideOverlay: hideOverlay
+            };
+
+            console.log('🎮 FC模拟器已启动，使用 __fc 进行调试');
+            console.log('📋 可用游戏:', GAMES.map(g => g.name).join(', '));
+
+        })();
+    </script>
+
+</body>
 </html>
