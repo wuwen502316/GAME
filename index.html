@@ -525,9 +525,9 @@
                  EJS_gameUrl = GAMES[value].url;
                  EJS_gameName = GAMES[value].gameName;
                  setTimeout(()=>{sidebar.classList.add('hidden-sidebar');},500)
-				const __s = document.creteElement("script");
+				const __s = document.createElement("script");
 				__s.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
-				document.querySelect('body').appendChild(__s);						  
+				document.querySelector("body").appendChild(__s);						  
             });
 
             // 侧边栏 "加载游戏" 按钮
