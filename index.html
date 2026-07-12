@@ -1,809 +1,1007 @@
-<html><head>
+<html>
+    <head>
         <!--HTML file auto generated using EmulatorJS codehelper-->
         <style>
             body, html {
                 margin: 0;
                 padding: 0;
             }
-   #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 30, 0.88);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
-        #overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
 
-        /* ---------- 主卡片 ---------- */
-        .overlay-card {
-            background: linear-gradient(145deg, #1a1a2e, #16213e);
-            border-radius: 24px;
-            padding: 36px 44px 40px 44px;
-            max-width: 560px;
-            width: 90%;
-            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(233, 69, 96, 0.15);
-            text-align: center;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-        .overlay-card .logo {
-            font-size: 42px;
-            margin-bottom: 8px;
-            display: block;
-        }
-        .overlay-card h2 {
-            color: #fff;
-            font-weight: 600;
-            font-size: 24px;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-        .overlay-card .sub {
-            color: #8899bb;
-            font-size: 14px;
-            margin-bottom: 28px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding-bottom: 18px;
-        }
+            #overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(10, 10, 30, 0.88);
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: opacity 0.5s ease, visibility 0.5s ease;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
 
-        /* ---------- 下拉菜单 ---------- */
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            margin-bottom: 24px;
-        }
-        .control-group label {
-            color: #c8d0e0;
-            font-size: 15px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: center;
-        }
-        .control-group label .icon {
-            font-size: 18px;
-        }
-        #gameSelect {
-            padding: 12px 40px 12px 18px;
-            font-size: 16px;
-            font-weight: 500;
-            border: 2px solid #2a3a6a;
-            border-radius: 12px;
-            background: #0f1a3a;
-            color: #eef;
-            cursor: pointer;
-            outline: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23e94560' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            width: 100%;
-            text-align: center;
-            text-align-last: center;
-        }
-        #gameSelect:hover {
-            border-color: #e94560;
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.15);
-        }
-        #gameSelect:focus {
-            border-color: #ff6b81;
-            box-shadow: 0 0 28px rgba(233, 69, 96, 0.25);
-        }
-        #gameSelect option {
-            background: #16213e;
-            color: #eef;
-            padding: 8px 12px;
-        }
+            #overlay.hidden {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
 
-        /* ---------- 按钮B ---------- */
-        #loadBtn {
-            padding: 14px 32px;
-            font-size: 18px;
-            font-weight: 700;
-            border: none;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #e94560, #c23152);
-            color: #fff;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
-            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.35);
-            letter-spacing: 0.5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            justify-content: center;
-        }
-        #loadBtn::before {
-            content: '▶';
-            font-size: 14px;
-        }
-        #loadBtn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(233, 69, 96, 0.5);
-            filter: brightness(1.05);
-        }
-        #loadBtn:active {
-            transform: translateY(0px);
-            box-shadow: 0 4px 16px rgba(233, 69, 96, 0.3);
-        }
-        #loadBtn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: 0 4px 16px rgba(233, 69, 96, 0.15);
-        }
+            /* ---------- 主卡片 ---------- */
+            .overlay-card {
+                background: linear-gradient(145deg, #1a1a2e, #16213e);
+                border-radius: 24px;
+                padding: 36px 44px 40px 44px;
+                max-width: 560px;
+                width: 90%;
+                box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(233, 69, 96, 0.15);
+                text-align: center;
+                position: relative;
+                transition: transform 0.3s ease;
+            }
 
-        /* ---------- 侧边栏切换按钮 ---------- */
-        .sidebar-toggle-wrap {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 16px;
-            gap: 12px;
-            align-items: center;
-        }
-        #toggleSidebarBtn {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #aab;
-            padding: 6px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: background 0.3s, color 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        #toggleSidebarBtn:hover {
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-        }
-        #toggleSidebarBtn .arrow {
-            display: inline-block;
-            transition: transform 0.3s;
-        }
-        #toggleSidebarBtn .arrow.open {
-            transform: rotate(180deg);
-        }
+            .overlay-card .logo {
+                font-size: 42px;
+                margin-bottom: 8px;
+                display: block;
+            }
 
-        /* ---------- 侧边栏 (边目录A) ---------- */
-        #sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            max-width: 100vw;
-            background: linear-gradient(180deg, #0f0f2a, #1a1a3e);
-            box-shadow: 4px 0 40px rgba(0, 0, 0, 0.7);
-            z-index: 10000;
-            transform: translateX(0);
-            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            padding: 28px 22px 30px 22px;
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid rgba(233, 69, 96, 0.15);
-            overflow-y: auto;
-            opacity: 0.9;
-        }
-        .sidebar300px {
-            height: 100%;
-            width: 20vw;
-        }
-        #sidebar.hidden-sidebar {
-            transform: translateX(-110%);
-        }
+            .overlay-card h2 {
+                color: #fff;
+                font-weight: 600;
+                font-size: 24px;
+                letter-spacing: 1px;
+                margin-bottom: 6px;
+            }
 
-        #sidebar .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        #sidebar .sidebar-header h3 {
-            color: #fff;
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        #sidebar .sidebar-header h3 span {
-            color: #e94560;
-        }
-        #sidebar .sidebar-close {
-            background: none;
-            border: none;
-            color: #667;
-            font-size: 26px;
-            cursor: pointer;
-            padding: 0 6px;
-            transition: color 0.3s, transform 0.3s;
-            line-height: 1;
-        }
-        #sidebar .sidebar-close:hover {
-            color: #e94560;
-            transform: rotate(90deg);
-        }
+            .overlay-card .sub {
+                color: #8899bb;
+                font-size: 14px;
+                margin-bottom: 28px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                padding-bottom: 18px;
+            }
 
-        #sidebar .sidebar-label {
-            color: #99aabb;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        #sidebar #sidebarSelect {
-            padding: 11px 36px 11px 16px;
-            font-size: 15px;
-            font-weight: 500;
-            border: 2px solid #2a3a6a;
-            border-radius: 10px;
-            background: #0f1a3a;
-            color: #eef;
-            cursor: pointer;
-            outline: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23e94560' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            width: 100%;
-            margin-bottom: 18px;
-        }
-        #sidebar #sidebarSelect:hover {
-            border-color: #e94560;
-        }
-        #sidebar #sidebarSelect:focus {
-            border-color: #ff6b81;
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.15);
-        }
-        #sidebar #sidebarSelect option {
-            background: #16213e;
-            color: #eef;
-        }
+            /* ---------- 下拉菜单 ---------- */
+            .control-group {
+                display: flex;
+                flex-direction: column;
+                gap: 18px;
+                margin-bottom: 24px;
+            }
 
-        #sidebar #sidebarLoadBtn,#sidebarUpLoadBtn {
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 700;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #e94560, #c23152);
-            color: #fff;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
-            box-shadow: 0 6px 24px rgba(233, 69, 96, 0.3);
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        #sidebar #sidebarLoadBtn::before {
-            content: '🎮';
-            font-size: 16px;
-        }
-        #sidebar #sidebarLoadBtn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 32px rgba(233, 69, 96, 0.4);
-            filter: brightness(1.05);
-        }
-        #sidebar #sidebarLoadBtn:active {
-            transform: translateY(0px);
-        }
+            .control-group label {
+                color: #c8d0e0;
+                font-size: 15px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                justify-content: center;
+            }
 
-        #sidebar .sidebar-footer {
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: #556;
-            font-size: 12px;
-            text-align: center;
-        }
+            .control-group label .icon {
+                font-size: 18px;
+            }
 
-        /* ---------- 侧边栏显示按钮（当侧边栏隐藏时） ---------- */
-        #showSidebarBtn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 9998;
-            background: rgba(233, 69, 96, 0.85);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 24px;
-            width: 48px;
-            height: 48px;
-            cursor: pointer;
-            box-shadow: 0 6px 24px rgba(233, 69, 96, 0.35);
-            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
-        }
-        #showSidebarBtn:hover {
-            transform: scale(1.08);
-            background: rgba(233, 69, 96, 1);
-            box-shadow: 0 8px 32px rgba(233, 69, 96, 0.5);
-        }
-        #showSidebarBtn .tooltip {
-            position: absolute;
-            left: 58px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            padding: 4px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-        #showSidebarBtn:hover .tooltip {
-            opacity: 1;
-        }
-        #emulator‌Loaded {
-            display: none;
-        }
-        /* ---------- 状态指示 ---------- */
-        #statusBadge {
-            display: inline-block;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            background: rgba(255, 255, 255, 0.06);
-            color: #8899bb;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            margin-top: 14px;
-            transition: all 0.4s;
-        }
-        #statusBadge.loading {
-            color: #ffd93d;
-            border-color: #ffd93d;
-            animation: pulse 1.2s ease-in-out infinite;
-        }
-        #statusBadge.ready {
-            color: #6bcb77;
-            border-color: #6bcb77;
-        }
-        #statusBadge.error {
-            color: #e94560;
-            border-color: #e94560;
-        }
+            #gameSelect {
+                padding: 12px 40px 12px 18px;
+                font-size: 16px;
+                font-weight: 500;
+                border: 2px solid #2a3a6a;
+                border-radius: 12px;
+                background: #0f1a3a;
+                color: #eef;
+                cursor: pointer;
+                outline: none;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23e94560' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 16px center;
+                transition: border-color 0.3s, box-shadow 0.3s;
+                width: 100%;
+                text-align: center;
+                text-align-last: center;
+            }
 
-        @keyframes pulse {
-            0%,
-            100% {
+            #gameSelect:hover {
+                border-color: #e94560;
+                box-shadow: 0 0 20px rgba(233, 69, 96, 0.15);
+            }
+
+            #gameSelect:focus {
+                border-color: #ff6b81;
+                box-shadow: 0 0 28px rgba(233, 69, 96, 0.25);
+            }
+
+            #gameSelect option {
+                background: #16213e;
+                color: #eef;
+                padding: 8px 12px;
+            }
+
+            /* ---------- 按钮B ---------- */
+            #loadBtn {
+                padding: 14px 32px;
+                font-size: 18px;
+                font-weight: 700;
+                border: none;
+                border-radius: 14px;
+                background: linear-gradient(135deg, #e94560, #c23152);
+                color: #fff;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
+                box-shadow: 0 8px 30px rgba(233, 69, 96, 0.35);
+                letter-spacing: 0.5px;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            #loadBtn::before {
+                content: '▶';
+                font-size: 14px;
+            }
+
+            #loadBtn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 40px rgba(233, 69, 96, 0.5);
+                filter: brightness(1.05);
+            }
+
+            #loadBtn:active {
+                transform: translateY(0px);
+                box-shadow: 0 4px 16px rgba(233, 69, 96, 0.3);
+            }
+
+            #loadBtn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none !important;
+                box-shadow: 0 4px 16px rgba(233, 69, 96, 0.15);
+            }
+
+            /* ---------- 侧边栏切换按钮 ---------- */
+            .sidebar-toggle-wrap {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 16px;
+                gap: 12px;
+                align-items: center;
+            }
+
+            #toggleSidebarBtn {
+                background: rgba(255, 255, 255, 0.06);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                color: #aab;
+                padding: 6px 16px;
+                border-radius: 8px;
+                font-size: 13px;
+                cursor: pointer;
+                transition: background 0.3s, color 0.3s;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            #toggleSidebarBtn:hover {
+                background: rgba(255, 255, 255, 0.12);
+                color: #fff;
+            }
+
+            #toggleSidebarBtn .arrow {
+                display: inline-block;
+                transition: transform 0.3s;
+            }
+
+            #toggleSidebarBtn .arrow.open {
+                transform: rotate(180deg);
+            }
+
+            /* ---------- 侧边栏 (边目录A) ---------- */
+            #sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                max-width: 100vw;
+                background: linear-gradient(180deg, #0f0f2a, #1a1a3e);
+                box-shadow: 4px 0 40px rgba(0, 0, 0, 0.7);
+                z-index: 10000;
+                transform: translateX(0);
+                transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+                padding: 28px 22px 30px 22px;
+                display: flex;
+                flex-direction: column;
+                border-right: 1px solid rgba(233, 69, 96, 0.15);
+                overflow-y: auto;
+                opacity: 0.9;
+            }
+
+            .sidebar300px {
+                height: 100%;
+                width: 20vw;
+            }
+
+            #sidebar.hidden-sidebar {
+                transform: translateX(-110%);
+            }
+
+            #sidebar .sidebar-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 28px;
+                padding-bottom: 16px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            }
+
+            #sidebar .sidebar-header h3 {
+                color: #fff;
+                font-size: 20px;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+            }
+
+            #sidebar .sidebar-header h3 span {
+                color: #e94560;
+            }
+
+            #sidebar .sidebar-close {
+                background: none;
+                border: none;
+                color: #667;
+                font-size: 26px;
+                cursor: pointer;
+                padding: 0 6px;
+                transition: color 0.3s, transform 0.3s;
+                line-height: 1;
+            }
+
+            #sidebar .sidebar-close:hover {
+                color: #e94560;
+                transform: rotate(90deg);
+            }
+
+            #sidebar .sidebar-label {
+                color: #99aabb;
+                font-size: 14px;
+                font-weight: 500;
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            #sidebar #sidebarSelect {
+                padding: 11px 36px 11px 16px;
+                font-size: 15px;
+                font-weight: 500;
+                border: 2px solid #2a3a6a;
+                border-radius: 10px;
+                background: #0f1a3a;
+                color: #eef;
+                cursor: pointer;
+                outline: none;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23e94560' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 14px center;
+                transition: border-color 0.3s, box-shadow 0.3s;
+                width: 100%;
+                margin-bottom: 18px;
+            }
+
+            #sidebar #sidebarSelect:hover {
+                border-color: #e94560;
+            }
+
+            #sidebar #sidebarSelect:focus {
+                border-color: #ff6b81;
+                box-shadow: 0 0 20px rgba(233, 69, 96, 0.15);
+            }
+
+            #sidebar #sidebarSelect option {
+                background: #16213e;
+                color: #eef;
+            }
+
+            #sidebar #sidebarLoadBtn,#sidebarUpLoadBtn {
+                padding: 12px 20px;
+                font-size: 16px;
+                font-weight: 700;
+                border: none;
+                border-radius: 12px;
+                background: linear-gradient(135deg, #e94560, #c23152);
+                color: #fff;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
+                box-shadow: 0 6px 24px rgba(233, 69, 96, 0.3);
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            #sidebar #sidebarLoadBtn::before {
+                content: '🎮';
+                font-size: 16px;
+            }
+
+            #sidebar #sidebarLoadBtn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 32px rgba(233, 69, 96, 0.4);
+                filter: brightness(1.05);
+            }
+
+            #sidebar #sidebarLoadBtn:active {
+                transform: translateY(0px);
+            }
+
+            #sidebar .sidebar-footer {
+                margin-top: auto;
+                padding-top: 20px;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+                color: #556;
+                font-size: 12px;
+                text-align: center;
+            }
+
+            /* ---------- 侧边栏显示按钮（当侧边栏隐藏时） ---------- */
+            #showSidebarBtn {
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 9998;
+                background: rgba(233, 69, 96, 0.85);
+                border: none;
+                border-radius: 12px;
+                color: #fff;
+                font-size: 24px;
+                width: 48px;
+                height: 48px;
+                cursor: pointer;
+                box-shadow: 0 6px 24px rgba(233, 69, 96, 0.35);
+                transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(4px);
+            }
+
+            #showSidebarBtn:hover {
+                transform: scale(1.08);
+                background: rgba(233, 69, 96, 1);
+                box-shadow: 0 8px 32px rgba(233, 69, 96, 0.5);
+            }
+
+            #showSidebarBtn .tooltip {
+                position: absolute;
+                left: 58px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: #fff;
+                padding: 4px 14px;
+                border-radius: 6px;
+                font-size: 13px;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
+
+            #showSidebarBtn:hover .tooltip {
                 opacity: 1;
             }
-            50% {
-                opacity: 0.4;
-            }
-        }
 
-        /* ---------- 响应式 ---------- */
-        @media (max-width: 640px) {
-            .overlay-card {
-                padding: 28px 20px 32px 20px;
-            }
-            .overlay-card h2 {
-                font-size: 20px;
-            }
-            #sidebar {
-                width: 85vw;
-                padding: 20px 16px 24px 16px;
-            }
-            #sidebar .sidebar-header h3 {
-                font-size: 17px;
-            }
-            #loadBtn {
-                font-size: 16px;
-                padding: 12px 20px;
-            }
-            #showSidebarBtn {
-                width: 42px;
-                height: 42px;
-                font-size: 20px;
-                top: 14px;
-                left: 14px;
-            }
-        }
-        @media (max-width: 400px) {
-            .overlay-card {
-                padding: 20px 14px 24px 14px;
-                border-radius: 16px;
-            }
-            .overlay-card .logo {
-                font-size: 32px;
-            }
-            .overlay-card h2 {
-                font-size: 17px;
-            }
-            #gameSelect,
-            #sidebar #sidebarSelect {
-                font-size: 14px;
-                padding: 10px 32px 10px 14px;
-            }
-            #loadBtn,
-            #sidebar #sidebarLoadBtn #sidebarUpLoadBtn{
-                font-size: 14px;
-                padding: 10px 16px;
-            }
-        }
-#returnBtn{
-	position:fixed;
-	top:0;right:0;
-	width:20vw;
-	height:50px;
-	z-index:9999999;
-	display: none;
-}
-#returnBtn button{
-	width:50%;
-	height:30px;
-	margin:auto;
-	position:absolute;
-	top:0;
-	left:0;
-	right:0;
-	bottom:0;
-
-}
-    </style>
-    <body>
-        <div style="width:100%;height:100%;max-width:100%">
-	<div id='returnBtn'><button id="returnToGameSelectionInterface">返回游戏选择界面</button></div>
-	 <button id="showSidebarBtn" title="打开游戏目录">☰
-        	<span class="tooltip">打开游戏目录</span>
-	</button>
- 	<div id="sidebar" class=""><div class="sidebar300px">
-                        <div class="sidebar-header">
-                                <h3>🎮 游戏<span>目录</span></h3>
-                                <button class="sidebar-close" id="sidebarCloseBtn" title="关闭侧边栏">✕</button>
-                        </div>
-                        <div style='border-bottom: 2px solid white;padding:0 0 20px 0'>
-                                <div class="sidebar-label">📋 选择游戏</div>
-                                <select id="sidebarSelect"></select>
-                                <button id="sidebarLoadBtn">确定</button>
-                        </div>
-                        <div style='padding:20px 0 0 0'>
-                                <div class="sidebar-label">上传nes文件</div>
-                                <input type="file" accept=".nes*" id="uploadfile">
-                                <button id="sidebarUpLoadBtn">确认</button>
-                        </div>
-                        
-                        <div style="margin-top:14px; text-align:center;" id="emulator‌Loaded">
-                                <span id="statusBadge" class="ready">模拟器已加载完成</span>
-                        </div>
-                        <div class="sidebar-footer">
-                                EmulatorJS · 点击加载切换游戏
-                        </div>
-                </div><div class="sidebar300pxout"></div></div>
-
-                <div id="game" class="ejs_parent ejs_big_screen" tabindex="-1" style="--ejs-primary-color:0, 100, 255;"></div>
-        <script>
-	var loaded = false;
-	var exitBtn = null;
-	var exitTimer = null;
-            const GAMES = [
-                { url: './nseFile/Dragon Quest/I/Yong Zhe Dou E Long IV (ES1047) (ChT).nes', gameName: 'FC勇者斗恶龙(汉化版)' },
-                { url: './nseFile/Dragon Quest/I/Dragon Quest (J) [!].nes', gameName: '勇者斗恶龙(日版)' },
-                { url: './nseFile/Dragon Quest/I/Dragon Warrior (U) (PRG0) [!].nes', gameName: '勇者斗恶龙(美版)' },
-
-                { url: './nseFile/Dragon Quest/II/Yong Zhe Dou E Long 2 (ES1003) (0100382) (V1) (ChS).nes', gameName: '勇者斗恶龙2(汉化版)' },
-                { url: './nseFile/Dragon Quest/II/Dragon Quest II (J) [!].nes', gameName: '勇者斗恶龙2(日版)' },
-                { url: './nseFile/Dragon Quest/II/Dragon Warrior II (U) [!].nes', gameName: '勇者斗恶龙2(美版)' },
-
-                { url: './nseFile/Dragon Quest/III/Yong Zhe Dou E Long 3 Dai (ES) (ChS).nes', gameName: '勇者斗恶龙3(汉化版)' },
-                { url: './nseFile/Dragon Quest/III/Dragon Quest III (J) (PRG0) [!].nes', gameName: '勇者斗恶龙3(日版)' },
-                { url: './nseFile/Dragon Quest/III/Dragon Warrior III (U) [!].nes', gameName: '勇者斗恶龙3(美版)' },
-
-                { url: './nseFile/Dragon Quest/IV/Yong Zhe Dou E Long 4 Dai (ES) (ChS) [a1].nes', gameName: '勇者斗恶龙4(汉化版)' },
-                { url: './nseFile/Dragon Quest/IV/Dragon Quest IV (J) (PRG0).nes', gameName: '勇者斗恶龙4(日版)' },
-                { url: './nseFile/Dragon Quest/IV/Dragon Warrior IV (U) [!].nes', gameName: '勇者斗恶龙4(美版)' },
-
-                { url: './nseFile/Final Fantasy/I/Final Fantasy (CN) [T+ChS_Unknow].nes', gameName: '最终幻想(汉化版)' },
-                { url: './nseFile/Final Fantasy/I/Final Fantasy (U) [!].nes', gameName: '最终幻想(美版)' },
-                { url: './nseFile/Final Fantasy/I/Final Fantasy (J) [!].nes', gameName: '最终幻想(日版)' },
-
-                { url: './nseFile/Final Fantasy/II/Final Fantasy II (J) [T+ChS_Waixing].nes', gameName: '最终幻想2(汉化版)' },
-                { url: './nseFile/Final Fantasy/II/Final Fantasy II (U) (Proto).nes', gameName: '最终幻想2(美版)' },
-                { url: './nseFile/Final Fantasy/II/Final Fantasy II (J) [!].nes', gameName: '最终幻想2(日版)' },
-
-                { url: './nseFile/Final Fantasy/III/Final Fantasy III (J) [!].nes', gameName: '最终幻想3(日版)' },
-                { url: './nseFile/Final Fantasy/III/Final Fantasy III (J) [T+ChS_LSP].nes', gameName: '最终幻想3(汉化版)' },
-
-                { url: './nseFile/Final Fantasy/IV/Final Fantasy IV (NJ098) (ChS).nes', gameName: '最终幻想4(汉化版)' },
-
-
-                { url: './nseFile/Bikkuriman World/Ji Dou Sheng Zhan Shi (ES1117) (ChS) [a1]', gameName: '激斗圣战士(汉化版)',"images":["1.png","2.png","3.png"] },
-                { url: './nseFile/Bikkuriman World/Bikkuriman World (J) [!].nes', gameName: '激斗圣战士(日版)',"images":["1.png","2.png","3.png"]},
-
-                { url: './nseFile/7100726.nes', gameName: '富甲天下(王子复仇记)' },
-
-                { url: './nseFile/Duo Bao Xiao Ying Hao/Chu Liu Xiang (ES1074) (ChS).nes', gameName: '楚留香传奇' },
-
-                { url: './nseFile/Huang Jin Tai Yang/Huang Jin Tai Yang (NJ020) (ChS).nes', gameName: '黄金太阳(南晶科技)' },
-
-                { url: './nseFile/Ji Du Shan En Chou Ji/Ji Du Shan En Chou Ji (ChT) (0100551).nes', gameName: '基督山恩仇记(外星科技)' },
-
-                { url: './nseFile/Grandia/Grandia (ES1078) (ChS) (2006SR04308).nes', gameName: '格兰蒂亚传说Grandia' },
-
-                { url: './nseFile/Feng Shen Bang - Fu Mo San Tai Zi/Feng Shen Bang - Fu Mo San Tai Zi (ChS).nes', gameName: '封神榜（哪吒传奇）' },
-
-                { url: './nseFile/Chu Liu Xiang/Duo Bao Xiao Ying Hao (ES1021) (ChT) (1996).nes', gameName: '夺宝小英豪' },
-
-                { url: './nseFile/Dai-2-Ji Super Robot Taisen/Dai-2-Ji Super Robot Taisen (J) [T+ChS_CYB][hM194].nes', gameName: '第二次机器人大战（又名反恐风暴）[CN]' },
-                { url: './nseFile/Dai-2-Ji Super Robot Taisen/Dai-2-Ji Super Robot Taisen (J) [!].nes', gameName: '第二次机器人大战[JP]' },
-
-                { url: './nseFile/Double Moon Densetsu/Shuang Yue Zhuan (Waixing) (ChS).nes', gameName: '双月传说[CN]' },
-                { url: './nseFile/Double Moon Densetsu/Double Moon Densetsu (J) [!].nes', gameName: '双月传说[JP]' },
-
-                { url: './nseFile/Little Magic/Mo Dao Shi Yin Mou (ES1020) (ChS) [a1].nes', gameName: '魔道士阴谋[CN]' },
-                { url: './nseFile/Little Magic/Little Magic (J) [!].nes', gameName: '魔道士阴谋[JP]' },
-
-                { url: './nseFile/Metal Max/Zhong Zhuang Ji Bing (ChS) (1991) (ChS Bold Menu) (v5.2) [h1] (Underwear for Sale).nes', gameName: '重装机兵[CN]' },
-                { url: './nseFile/Metal Max/Metal Max (J) [!].nes', gameName: '重装机兵[JP]' },
-
-                { url: './nseFile/Mo Yu Ying Xiong Zhuan/Mo Yu Ying Xiong Zhuan (ES1017) (ChS) (FS005).nes', gameName: '魔域英雄传(外星科技)' },
-
-                { url: './nseFile/Pokemon Yellow (ES)/Kou Dai Jing Ling - Hong (ES1082) (ChS) (Pokemon Yellow ES Hack).nes', gameName: '口袋精灵(红)' },
-
-                { url: './nseFile/Satomi Hakkenden/Satomi Hakkenden (J) [T+ChS_Waixing][hM4][f1] (Real Console).nes', gameName: '里见八犬传[CN]' },
-                { url: './nseFile/Satomi Hakkenden/Satomi Hakkenden (J) [!].nes', gameName: '里见八犬传[JP]' },
-
-                { url: './nseFile/SD Gundam Gaiden - Knight Gundam Monogatari/I/Gao Da Zhi Qi Shi Wu Yu 1 (ChS) (2009SR04191) (ES1132) [hM176][a1].nes', gameName: 'SD高达之骑士物语1[CN]' },
-                { url: './nseFile/SD Gundam Gaiden - Knight Gundam Monogatari/I/SD Gundam Gaiden - Knight Gundam Monogatari (J) (PRG0) [!].nes', gameName: 'SD Gundam Gaiden1[JP]' },
-
-                { url: './nseFile/SD Gundam Gaiden - Knight Gundam Monogatari/II/Shang Gu Shen Dian (ES1136) (ChS).nes', gameName: '上古神殿[CN]' },
-                { url: './nseFile/SD Gundam Gaiden - Knight Gundam Monogatari/II/SD Gundam Gaiden - Knight Gundam Monogatari 2 (J) [!].nes', gameName: 'SD Gundam Gaiden2[JP]' },
-
-                { url: './nseFile/Sheng Huo Lie Zhuan/Sheng Huo Lie Zhuan (ChT).nes', gameName: '圣火列传' },
-
-                { url: './nseFile/Shi Kong Zhi Lun - Chrono Trigger/Shi Kong Zhi Lun - Chrono Trigger (NJ038) (ChS).nes', gameName: '超时空之轮（南晶科技）' },
-
-                { url: './nseFile/Tenchi wo Kurau/I/Tenchi wo Kurau (J) [T+ChS_kwjxqy][h1] (Data).nes', gameName: '吞食天地1[CN]' },
-                { url: './nseFile/Tenchi wo Kurau/I/Tenchi wo Kurau (J) (PRG0) [!].nes', gameName: '吞食天地1[JP]' },
-                { url: './nseFile/Tenchi wo Kurau/I/Destiny of an Emperor (U) [!].nes', gameName: '吞食天地1[US]' },
-
-                { url: './nseFile/Tenchi wo Kurau/II/Tenchi wo Kurau II - Shokatsu Koumei Den (J) [T+ChS_Perfect][hM198][t1] (Attribute Enhance).nes', gameName: '吞食天地孔明传2[CN]' },
-                { url: './nseFile/Tenchi wo Kurau/II/Tenchi wo Kurau II - Shokatsu Koumei Den (J) (PRG0) [!].nes', gameName: '吞食天地2[JP]' },
-                { url: './nseFile/Tenchi wo Kurau/II/San Guo Yan Yi - Luo Yun Xiu Gai - Guang Rong Tou Xiang (ChS) (TWK2 Hack) [hM4].nes', gameName: '吞食天地2改版三国演义[CN]' },
-                { url: './nseFile/Tenchi wo Kurau/II/Shu - Shen Jiang Zhuan (v1.83) (ChS) (TWK2 Hack) [hM195].nes', gameName: '吞食天地2改版蜀-神将传(v1.83)[CN]' },
-                { url: './nseFile/Tenchi wo Kurau/II/Cao Wei wo Kurau II - Cao Wei no Ye Wang (v1.4) (ChS) (TWK2 Hack) [hM4].nes', gameName: '吞食天地2改版曹魏的野望[CN]' },
-                { url: './nseFile/Tenchi wo Kurau/II/Cao Wei wo Kurau II - Cao Cao Meng De Zhuan - NTS2R Group (vB1.7) (ChS) (TWK2 Hack) [hM195].nes', gameName: '吞食天地2改版曹孟德传[CN]' },
-                { url: './nseFile/Tenchi wo Kurau/II/Wu Shuang Da She - Mo Wang Chu Lin (TWK2 Hack) (ChS) (Final) [hM195].nes', gameName: '吞食天地2改版无双大蛇[CN]' },
-                { url: './nseFile/Tenchi wo Kurau/II/Yuan Shao Zhuan (TWK2 Hack) (ChS) (v1.0) [hM4].nes', gameName: '吞食天地2改版袁绍传[CN]' },
-
-                { url: './nseFile/Tian Long Ba Bu (NJ035) (ChS)/Tian Long Ba Bu (NJ035) (ChS).nes', gameName: '天龙八部' },
-
-                { url: './nseFile/Uncharted Waters/Uncharted Waters (U) [!].nes', gameName: '大航海时代(美版)' },
-                { url: './nseFile/Uncharted Waters/Daikoukai Jidai (J) [!].nes', gameName: '大航海时代(日版)' },
-
-                { url: './nseFile/Xian Jian Qi Xia/Mo Yu Ying Xiong Zhuan (ES1017) (ChS) (FS005).nes', gameName: '仙剑奇侠' },
-
-                { url: './nseFile/Xuan Yuan Jian Wai Zhuan Zhi Tian Zhi Hen/Mo Yu Ying Xiong Zhuan (ES1017) (ChS) (FS005).nes', gameName: '轩辕剑外传天之痕' },
-
-                { url: './nseFile/Ying Lie Qun Xia Zhuan/Mo Yu Ying Xiong Zhuan (ES1017) (ChS) (FS005).nes', gameName: '英烈群侠传' },
-            ];
-const sidebarSelect = document.getElementById("sidebarSelect");
-const length = GAMES.length
-for (let index = 0; index < length; index++) {
-	const _option = document.createElement("option");
-	_option.value = index;
-	_option.innerHTML = GAMES[index].gameName;
-	sidebarSelect.appendChild(_option);
-}
-const removeScript = ["emulator.min.js","loader.js","blob:null"];
-const removeStyle = ["emulator.min.css"];
-            const _EJS = {
-                player:"#game",
-                core:"nes",
-                gameName:GAMES[0].gameName,
-                color: "#0064ff",
-                pathtodata: "https://cdn.emulatorjs.org/stable/data/",
-                gameUrl: GAMES[0].url
-            }
-            var __timer = null;
-            var EJS_player, EJS_core,EJS_gameName, EJS_color, EJS_pathtodata, EJS_gameUrl;
-
-            const sidebar = document.getElementById('sidebar');
-            //const sidebarSelect = document.getElementById('sidebarSelect');
-            const sidebarLoadBtn = document.getElementById('sidebarLoadBtn');
-            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
-            const showSidebarBtn = document.getElementById('showSidebarBtn');
-            const sidebarUpLoadBtn = document.getElementById('sidebarUpLoadBtn');
-            const uploadfile = document.getElementById('uploadfile');
-            const returnToGameSelectionInterface = document.getElementById('returnToGameSelectionInterface');
-	const returnBtn = document.getElementById("returnBtn");
-
-function emulator‌Loaded(){
-	const __emulator‌Loaded = document.getElementById('emulator‌Loaded');
-                __timer = setInterval(()=>{
-                        const flag = EJS_player && EJS_core &&  EJS_color && EJS_pathtodata && EJS_gameUrl && EJS_gameName;
-                        if(flag){
-		__emulator‌Loaded.style.display = "block";
-                                clearInterval(__timer);
-		//alert("游戏已锁定")
-                        }
-                },500)
-}
-
-function setEJSData(player,core,color,pathtodata,gameUrl,gameName){
-	EJS_player = player;
-                 EJS_core = core;
-                 EJS_color = color;
-                 EJS_pathtodata =pathtodata;
-                 EJS_gameUrl =gameUrl;
-                 EJS_gameName = gameName;
-}
-function loaderJS(){
-	const __loaderJS = document.getElementById("loaderJS");
-	if(!__loaderJS){
-		const __s = document.createElement("script");
-		__s.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
-		__s.id="loaderJS";
-		document.querySelector("body").appendChild(__s);
-	}
-}
-
-	sidebarLoadBtn.addEventListener('click', ()=> {
-		const value = sidebarSelect.value;
-		setEJSData(_EJS.player,_EJS.core,_EJS.color,_EJS.pathtodata,GAMES[value].url,GAMES[value].gameName);
-		loaderJS();
-		emulator‌Loaded();
-		exitTimer = setInterval(()=>{
-			exitBtn = document.querySelector(".ejs_start_button");console.log(12,exitBtn);
-			if(exitBtn){
-				sidebar.classList.add('hidden-sidebar');
-				returnBtn.style.display = "block";
-				clearInterval(exitTimer);
-				exitTimer = null;
-				loaded = true;
-			}
-		},1000);
-
-	 });
-
-returnToGameSelectionInterface.addEventListener('click', ()=> {
-	if(loaded){//已加载
-		const flag = confirm("确定要退出？退出将清空所有数据");
-		const exitBTN = document.querySelectorAll(".ejs_menu_bar")[0].lastElementChild;
-		exitBTN.click();
-		if( flag ){
-			setTimeout(()=>{
-			const ejs_parent = document.querySelector("#game.ejs_parent");
-			const ConfirmBTN = document.querySelectorAll(".ejs_cheat_parent button")[1];
-
-			setEJSData(null, null,null,null,null,null);
-			sidebar.classList.remove('hidden-sidebar');
-			const _scripts = document.querySelectorAll("script");
-			const _links = document.querySelectorAll("link");
-			for(let i = 0; i<_scripts.length;i++){
-				let src = _scripts[i].src;
-				for(let j = 0;j<removeScript.length;j++){
-					if(src.includes(removeScript[j])){
-						_scripts[i].remove();
-					}
-				}
-			}
-
-			for(let i = 0; i<_links.length;i++){
-				let href = _links[i].href;
-				for(let j = 0;j<removeScript.length;j++){
-					if(href.includes(removeStyle[j])){
-						_links[i].remove();
-					}
-				}
-			}
-			returnBtn.style.display = "none";
-			loaded = !loaded;
-			ConfirmBTN.click();
-
-			ejs_parent.innerHTML = "";
-			},200)
-		}else{
-			const CancelBTN = document.querySelectorAll(".ejs_cheat_parent button")[2];
-			CancelBTN.click();
-			console.log("已取消");
-		}
-	}else{//未加载
-		console.log(2,loaded);
-	}
-	
-})
-
-function upLoadClick(file){
-	sidebarUpLoadBtn.addEventListener('click', ()=> {
-		setEJSData(_EJS.player,_EJS.core,_EJS.color,_EJS.pathtodata,file, file.name.slice(0,-4));
-		loaderJS();
-		emulator‌Loaded();
-		exitTimer = setInterval(()=>{
-			exitBtn = document.querySelector(".ejs_start_button");console.log(4,exitBtn);
-			if(exitBtn){
-				sidebar.classList.add('hidden-sidebar');
-				returnBtn.style.display = "block";
-				clearInterval(exitTimer);
-				exitTimer = null;
-				loaded = true;
-			}
-		},1000);
-	})
-}
-uploadfile.addEventListener('change', function(e) {
-
-
-	const file = e.target.files[0];
-	console.log(file)
-	if (!file) return;
-
-	const reader = new FileReader();
-	// 只读取前4个字节，节省内存
-	reader.readAsArrayBuffer(file.slice(0, 4));
-  
-	reader.onload = function() {
-		const view = new Uint8Array(this.result);
-		// 比较十六进制: 0x4E, 0x45, 0x53, 0x1A
-		if (view.length === 4 && view[0] === 0x4E && view[1] === 0x45 &&  view[2] === 0x53 && view[3] === 0x1A) {
-			console.log('校验通过');
-			upLoadClick(file)
-		} else {
-			alert('上传文件必须为NES 文件');
-		}
-	};
-});
-
-	//侧边栏控制
-            function showSidebar() {
-                sidebar.classList.remove('hidden-sidebar');
-                sidebarVisible = true;
-                showSidebarBtn.style.display = 'none';
+            #emulator‌Loaded {
+                display: none;
             }
 
-            function hideSidebar() {
-                sidebar.classList.add('hidden-sidebar');
-                sidebarVisible = false;
-                showSidebarBtn.style.display = 'flex';
+            /* ---------- 状态指示 ---------- */
+            #statusBadge {
+                display: inline-block;
+                padding: 4px 16px;
+                border-radius: 20px;
+                font-size: 13px;
+                font-weight: 500;
+                background: rgba(255, 255, 255, 0.06);
+                color: #8899bb;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+                margin-top: 14px;
+                transition: all 0.4s;
             }
 
-            function toggleSidebar() {
-                if (sidebarVisible) {
-                    hideSidebar();
-                } else {
-                    showSidebar();
+            #statusBadge.loading {
+                color: #ffd93d;
+                border-color: #ffd93d;
+                animation: pulse 1.2s ease-in-out infinite;
+            }
+
+            #statusBadge.ready {
+                color: #6bcb77;
+                border-color: #6bcb77;
+            }
+
+            #statusBadge.error {
+                color: #e94560;
+                border-color: #e94560;
+            }
+
+            @keyframes pulse {
+                0%, 100% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0.4;
                 }
             }
 
-            //切换侧边栏
-            //toggleSidebarBtn.addEventListener('click', toggleSidebar);
-            sidebarCloseBtn.addEventListener('click', hideSidebar);
-            showSidebarBtn.addEventListener('click', showSidebar);
-   
-        </script>
-</body></html>
+            /* ---------- 响应式 ---------- */
+            @media (max-width: 640px) {
+                .overlay-card {
+                    padding: 28px 20px 32px 20px;
+                }
+
+                .overlay-card h2 {
+                    font-size: 20px;
+                }
+
+                #sidebar {
+                    width: 85vw;
+                    padding: 20px 16px 24px 16px;
+                }
+
+                #sidebar .sidebar-header h3 {
+                    font-size: 17px;
+                }
+
+                #loadBtn {
+                    font-size: 16px;
+                    padding: 12px 20px;
+                }
+
+                #showSidebarBtn {
+                    width: 42px;
+                    height: 42px;
+                    font-size: 20px;
+                    top: 14px;
+                    left: 14px;
+                }
+            }
+
+            @media (max-width: 400px) {
+                .overlay-card {
+                    padding: 20px 14px 24px 14px;
+                    border-radius: 16px;
+                }
+
+                .overlay-card .logo {
+                    font-size: 32px;
+                }
+
+                .overlay-card h2 {
+                    font-size: 17px;
+                }
+
+                #gameSelect, #sidebar #sidebarSelect {
+                    font-size: 14px;
+                    padding: 10px 32px 10px 14px;
+                }
+
+                #loadBtn, #sidebar #sidebarLoadBtn #sidebarUpLoadBtn {
+                    font-size: 14px;
+                    padding: 10px 16px;
+                }
+            }
+
+            #returnBtn {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 20vw;
+                height: 50px;
+                z-index: 9999999;
+                display: none;
+            }
+
+            #returnBtn button {
+                width: 50%;
+                height: 30px;
+                margin: auto;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+        </style>
+    <body>
+        <div style="width:100%;height:100%;max-width:100%">
+            <div id='returnBtn'>
+                <button id="returnToGameSelectionInterface">返回游戏选择界面</button>
+            </div>
+            <button id="showSidebarBtn" title="打开游戏目录">
+                ☰
+        	<span class="tooltip">打开游戏目录</span>
+            </button>
+            <div id="sidebar" class="">
+                <div class="sidebar300px">
+                    <div class="sidebar-header">
+                        <h3>
+                            🎮 游戏<span>目录</span>
+                        </h3>
+                        <button class="sidebar-close" id="sidebarCloseBtn" title="关闭侧边栏">✕</button>
+                    </div>
+                    <div style='border-bottom: 2px solid white;padding:0 0 20px 0'>
+                        <div class="sidebar-label">📋 选择游戏</div>
+                        <select id="sidebarSelect"></select>
+                        <button id="sidebarLoadBtn">确定</button>
+                    </div>
+                    <div style='padding:20px 0 0 0'>
+                        <div class="sidebar-label">上传nes文件</div>
+                        <input type="file" accept=".nes*" id="uploadfile">
+                        <button id="sidebarUpLoadBtn">确认</button>
+                    </div>
+                    <div style="margin-top:14px; text-align:center;" id="emulator‌Loaded">
+                        <span id="statusBadge" class="ready">模拟器已加载完成</span>
+                    </div>
+                    <div class="sidebar-footer">EmulatorJS · 点击加载切换游戏
+                        </div>
+                </div>
+                <div class="sidebar300pxout"></div>
+            </div>
+            <div id="game" class="ejs_parent ejs_big_screen" tabindex="-1" style="--ejs-primary-color:0, 100, 255;"></div>
+            <script>
+                var loaded = false;
+                var exitBtn = null;
+                var exitTimer = null;
+                const GAMES = [{
+                    url: './nseFile/Dragon Quest/I/Yong Zhe Dou E Long IV (ES1047) (ChT).nes',
+                    gameName: 'FC勇者斗恶龙(汉化版)'
+                }, {
+                    url: './nseFile/Dragon Quest/I/Dragon Quest (J) [!].nes',
+                    gameName: '勇者斗恶龙(日版)'
+                }, {
+                    url: './nseFile/Dragon Quest/I/Dragon Warrior (U) (PRG0) [!].nes',
+                    gameName: '勇者斗恶龙(美版)'
+                },
+                {
+                    url: './nseFile/Dragon Quest/II/Yong Zhe Dou E Long 2 (ES1003) (0100382) (V1) (ChS).nes',
+                    gameName: '勇者斗恶龙2(汉化版)'
+                }, {
+                    url: './nseFile/Dragon Quest/II/Dragon Quest II (J) [!].nes',
+                    gameName: '勇者斗恶龙2(日版)'
+                }, {
+                    url: './nseFile/Dragon Quest/II/Dragon Warrior II (U) [!].nes',
+                    gameName: '勇者斗恶龙2(美版)'
+                },
+                {
+                    url: './nseFile/Dragon Quest/III/Yong Zhe Dou E Long 3 Dai (ES) (ChS).nes',
+                    gameName: '勇者斗恶龙3(汉化版)'
+                }, {
+                    url: './nseFile/Dragon Quest/III/Dragon Quest III (J) (PRG0) [!].nes',
+                    gameName: '勇者斗恶龙3(日版)'
+                }, {
+                    url: './nseFile/Dragon Quest/III/Dragon Warrior III (U) [!].nes',
+                    gameName: '勇者斗恶龙3(美版)'
+                },
+                {
+                    url: './nseFile/Dragon Quest/IV/Yong Zhe Dou E Long 4 Dai (ES) (ChS) [a1].nes',
+                    gameName: '勇者斗恶龙4(汉化版)'
+                }, {
+                    url: './nseFile/Dragon Quest/IV/Dragon Quest IV (J) (PRG0).nes',
+                    gameName: '勇者斗恶龙4(日版)'
+                }, {
+                    url: './nseFile/Dragon Quest/IV/Dragon Warrior IV (U) [!].nes',
+                    gameName: '勇者斗恶龙4(美版)'
+                },
+                {
+                    url: './nseFile/Final Fantasy/I/Final Fantasy (CN) [T+ChS_Unknow].nes',
+                    gameName: '最终幻想(汉化版)'
+                }, {
+                    url: './nseFile/Final Fantasy/I/Final Fantasy (U) [!].nes',
+                    gameName: '最终幻想(美版)'
+                }, {
+                    url: './nseFile/Final Fantasy/I/Final Fantasy (J) [!].nes',
+                    gameName: '最终幻想(日版)'
+                },
+                {
+                    url: './nseFile/Final Fantasy/II/Final Fantasy II (J) [T+ChS_Waixing].nes',
+                    gameName: '最终幻想2(汉化版)'
+                }, {
+                    url: './nseFile/Final Fantasy/II/Final Fantasy II (U) (Proto).nes',
+                    gameName: '最终幻想2(美版)'
+                }, {
+                    url: './nseFile/Final Fantasy/II/Final Fantasy II (J) [!].nes',
+                    gameName: '最终幻想2(日版)'
+                },
+                {
+                    url: './nseFile/Final Fantasy/III/Final Fantasy III (J) [!].nes',
+                    gameName: '最终幻想3(日版)'
+                }, {
+                    url: './nseFile/Final Fantasy/III/Final Fantasy III (J) [T+ChS_LSP].nes',
+                    gameName: '最终幻想3(汉化版)'
+                },
+                {
+                    url: './nseFile/Final Fantasy/IV/Final Fantasy IV (NJ098) (ChS).nes',
+                    gameName: '最终幻想4(汉化版)'
+                },
+                {
+                    url: './nseFile/Bikkuriman World/Ji Dou Sheng Zhan Shi (ES1117) (ChS) [a1]',
+                    gameName: '激斗圣战士(汉化版)',
+                    "images": ["1.png", "2.png", "3.png"]
+                }, {
+                    url: './nseFile/Bikkuriman World/Bikkuriman World (J) [!].nes',
+                    gameName: '激斗圣战士(日版)',
+                    "images": ["1.png", "2.png", "3.png"]
+                },
+                {
+                    url: './nseFile/7100726.nes',
+                    gameName: '富甲天下(王子复仇记)'
+                },
+                {
+                    url: './nseFile/Duo Bao Xiao Ying Hao/Chu Liu Xiang (ES1074) (ChS).nes',
+                    gameName: '楚留香传奇'
+                },
+                {
+                    url: './nseFile/Huang Jin Tai Yang/Huang Jin Tai Yang (NJ020) (ChS).nes',
+                    gameName: '黄金太阳(南晶科技)'
+                },
+                {
+                    url: './nseFile/Ji Du Shan En Chou Ji/Ji Du Shan En Chou Ji (ChT) (0100551).nes',
+                    gameName: '基督山恩仇记(外星科技)'
+                },
+                {
+                    url: './nseFile/Grandia/Grandia (ES1078) (ChS) (2006SR04308).nes',
+                    gameName: '格兰蒂亚传说Grandia'
+                },
+                {
+                    url: './nseFile/Feng Shen Bang - Fu Mo San Tai Zi/Feng Shen Bang - Fu Mo San Tai Zi (ChS).nes',
+                    gameName: '封神榜（哪吒传奇）'
+                },
+                {
+                    url: './nseFile/Chu Liu Xiang/Duo Bao Xiao Ying Hao (ES1021) (ChT) (1996).nes',
+                    gameName: '夺宝小英豪'
+                },
+                {
+                    url: './nseFile/Dai-2-Ji Super Robot Taisen/Dai-2-Ji Super Robot Taisen (J) [T+ChS_CYB][hM194].nes',
+                    gameName: '第二次机器人大战（又名反恐风暴）[CN]'
+                }, {
+                    url: './nseFile/Dai-2-Ji Super Robot Taisen/Dai-2-Ji Super Robot Taisen (J) [!].nes',
+                    gameName: '第二次机器人大战[JP]'
+                },
+                {
+                    url: './nseFile/Double Moon Densetsu/Shuang Yue Zhuan (Waixing) (ChS).nes',
+                    gameName: '双月传说[CN]'
+                }, {
+                    url: './nseFile/Double Moon Densetsu/Double Moon Densetsu (J) [!].nes',
+                    gameName: '双月传说[JP]'
+                },
+                {
+                    url: './nseFile/Little Magic/Mo Dao Shi Yin Mou (ES1020) (ChS) [a1].nes',
+                    gameName: '魔道士阴谋[CN]'
+                }, {
+                    url: './nseFile/Little Magic/Little Magic (J) [!].nes',
+                    gameName: '魔道士阴谋[JP]'
+                },
+                {
+                    url: './nseFile/Metal Max/Zhong Zhuang Ji Bing (ChS) (1991) (ChS Bold Menu) (v5.2) [h1] (Underwear for Sale).nes',
+                    gameName: '重装机兵[CN]'
+                }, {
+                    url: './nseFile/Metal Max/Metal Max (J) [!].nes',
+                    gameName: '重装机兵[JP]'
+                },
+                {
+                    url: './nseFile/Mo Yu Ying Xiong Zhuan/Mo Yu Ying Xiong Zhuan (ES1017) (ChS) (FS005).nes',
+                    gameName: '魔域英雄传(外星科技)'
+                },
+                {
+                    url: './nseFile/Pokemon Yellow (ES)/Kou Dai Jing Ling - Hong (ES1082) (ChS) (Pokemon Yellow ES Hack).nes',
+                    gameName: '口袋精灵(红)'
+                },
+                {
+                    url: './nseFile/Satomi Hakkenden/Satomi Hakkenden (J) [T+ChS_Waixing][hM4][f1] (Real Console).nes',
+                    gameName: '里见八犬传[CN]'
+                }, {
+                    url: './nseFile/Satomi Hakkenden/Satomi Hakkenden (J) [!].nes',
+                    gameName: '里见八犬传[JP]'
+                },
+                {
+                    url: './nseFile/SD Gundam Gaiden - Knight Gundam Monogatari/I/Gao Da Zhi Qi Shi Wu Yu 1 (ChS) (2009SR04191) (ES1132) [hM176][a1].nes',
+                    gameName: 'SD高达之骑士物语1[CN]'
+                }, {
+                    url: './nseFile/SD Gundam Gaiden - Knight Gundam Monogatari/I/SD Gundam Gaiden - Knight Gundam Monogatari (J) (PRG0) [!].nes',
+                    gameName: 'SD Gundam Gaiden1[JP]'
+                },
+                {
+                    url: './nseFile/SD Gundam Gaiden - Knight Gundam Monogatari/II/Shang Gu Shen Dian (ES1136) (ChS).nes',
+                    gameName: '上古神殿[CN]'
+                }, {
+                    url: './nseFile/SD Gundam Gaiden - Knight Gundam Monogatari/II/SD Gundam Gaiden - Knight Gundam Monogatari 2 (J) [!].nes',
+                    gameName: 'SD Gundam Gaiden2[JP]'
+                },
+                {
+                    url: './nseFile/Sheng Huo Lie Zhuan/Sheng Huo Lie Zhuan (ChT).nes',
+                    gameName: '圣火列传'
+                },
+                {
+                    url: './nseFile/Shi Kong Zhi Lun - Chrono Trigger/Shi Kong Zhi Lun - Chrono Trigger (NJ038) (ChS).nes',
+                    gameName: '超时空之轮（南晶科技）'
+                },
+                {
+                    url: './nseFile/Tenchi wo Kurau/I/Tenchi wo Kurau (J) [T+ChS_kwjxqy][h1] (Data).nes',
+                    gameName: '吞食天地1[CN]'
+                }, {
+                    url: './nseFile/Tenchi wo Kurau/I/Tenchi wo Kurau (J) (PRG0) [!].nes',
+                    gameName: '吞食天地1[JP]'
+                }, {
+                    url: './nseFile/Tenchi wo Kurau/I/Destiny of an Emperor (U) [!].nes',
+                    gameName: '吞食天地1[US]'
+                },
+                {
+                    url: './nseFile/Tenchi wo Kurau/II/Tenchi wo Kurau II - Shokatsu Koumei Den (J) [T+ChS_Perfect][hM198][t1] (Attribute Enhance).nes',
+                    gameName: '吞食天地孔明传2[CN]'
+                }, {
+                    url: './nseFile/Tenchi wo Kurau/II/Tenchi wo Kurau II - Shokatsu Koumei Den (J) (PRG0) [!].nes',
+                    gameName: '吞食天地2[JP]'
+                }, {
+                    url: './nseFile/Tenchi wo Kurau/II/San Guo Yan Yi - Luo Yun Xiu Gai - Guang Rong Tou Xiang (ChS) (TWK2 Hack) [hM4].nes',
+                    gameName: '吞食天地2改版三国演义[CN]'
+                }, {
+                    url: './nseFile/Tenchi wo Kurau/II/Shu - Shen Jiang Zhuan (v1.83) (ChS) (TWK2 Hack) [hM195].nes',
+                    gameName: '吞食天地2改版蜀-神将传(v1.83)[CN]'
+                }, {
+                    url: './nseFile/Tenchi wo Kurau/II/Cao Wei wo Kurau II - Cao Wei no Ye Wang (v1.4) (ChS) (TWK2 Hack) [hM4].nes',
+                    gameName: '吞食天地2改版曹魏的野望[CN]'
+                }, {
+                    url: './nseFile/Tenchi wo Kurau/II/Cao Wei wo Kurau II - Cao Cao Meng De Zhuan - NTS2R Group (vB1.7) (ChS) (TWK2 Hack) [hM195].nes',
+                    gameName: '吞食天地2改版曹孟德传[CN]'
+                }, {
+                    url: './nseFile/Tenchi wo Kurau/II/Wu Shuang Da She - Mo Wang Chu Lin (TWK2 Hack) (ChS) (Final) [hM195].nes',
+                    gameName: '吞食天地2改版无双大蛇[CN]'
+                }, {
+                    url: './nseFile/Tenchi wo Kurau/II/Yuan Shao Zhuan (TWK2 Hack) (ChS) (v1.0) [hM4].nes',
+                    gameName: '吞食天地2改版袁绍传[CN]'
+                },
+                {
+                    url: './nseFile/Tian Long Ba Bu (NJ035) (ChS)/Tian Long Ba Bu (NJ035) (ChS).nes',
+                    gameName: '天龙八部'
+                },
+                {
+                    url: './nseFile/Uncharted Waters/Uncharted Waters (U) [!].nes',
+                    gameName: '大航海时代(美版)'
+                }, {
+                    url: './nseFile/Uncharted Waters/Daikoukai Jidai (J) [!].nes',
+                    gameName: '大航海时代(日版)'
+                },
+                {
+                    url: './nseFile/Xian Jian Qi Xia/Mo Yu Ying Xiong Zhuan (ES1017) (ChS) (FS005).nes',
+                    gameName: '仙剑奇侠'
+                },
+                {
+                    url: './nseFile/Xuan Yuan Jian Wai Zhuan Zhi Tian Zhi Hen/Mo Yu Ying Xiong Zhuan (ES1017) (ChS) (FS005).nes',
+                    gameName: '轩辕剑外传天之痕'
+                },
+                {
+                    url: './nseFile/Ying Lie Qun Xia Zhuan/Mo Yu Ying Xiong Zhuan (ES1017) (ChS) (FS005).nes',
+                    gameName: '英烈群侠传'
+                }, ];
+                const sidebarSelect = document.getElementById("sidebarSelect");
+                const length = GAMES.length
+                for (let index = 0; index < length; index++) {
+                    const _option = document.createElement("option");
+                    _option.value = index;
+                    _option.innerHTML = GAMES[index].gameName;
+                    sidebarSelect.appendChild(_option);
+                }
+                const removeScript = ["emulator.min.js", "loader.js", "blob:null"];
+                const removeStyle = ["emulator.min.css"];
+                const _EJS = {
+                    player: "#game",
+                    core: "nes",
+                    gameName: GAMES[0].gameName,
+                    color: "#0064ff",
+                    pathtodata: "https://cdn.emulatorjs.org/stable/data/",
+                    gameUrl: GAMES[0].url
+                }
+                var __timer = null;
+                var EJS_player, EJS_core, EJS_gameName, EJS_color, EJS_pathtodata, EJS_gameUrl;
+
+                const sidebar = document.getElementById('sidebar');
+                //const sidebarSelect = document.getElementById('sidebarSelect');
+                const sidebarLoadBtn = document.getElementById('sidebarLoadBtn');
+                const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+                const showSidebarBtn = document.getElementById('showSidebarBtn');
+                const sidebarUpLoadBtn = document.getElementById('sidebarUpLoadBtn');
+                const uploadfile = document.getElementById('uploadfile');
+                const returnToGameSelectionInterface = document.getElementById('returnToGameSelectionInterface');
+                const returnBtn = document.getElementById("returnBtn");
+
+                function emulator‌Loaded() {
+                    const __emulator‌Loaded = document.getElementById('emulator‌Loaded');
+                    __timer = setInterval( () => {
+                        const flag = EJS_player && EJS_core && EJS_color && EJS_pathtodata && EJS_gameUrl && EJS_gameName;
+                        if (flag) {
+                            __emulator‌Loaded.style.display = "block";
+                            clearInterval(__timer);
+                            //alert("游戏已锁定")
+                        }
+                    }
+                    , 500)
+                }
+
+                function setEJSData(player, core, color, pathtodata, gameUrl, gameName) {
+                    EJS_player = player;
+                    EJS_core = core;
+                    EJS_color = color;
+                    EJS_pathtodata = pathtodata;
+                    EJS_gameUrl = gameUrl;
+                    EJS_gameName = gameName;
+                }
+                function loaderJS() {
+                    const __loaderJS = document.getElementById("loaderJS");
+                    if (!__loaderJS) {
+                        const __s = document.createElement("script");
+                        __s.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
+                        __s.id = "loaderJS";
+                        document.querySelector("body").appendChild(__s);
+                    }
+                }
+
+                sidebarLoadBtn.addEventListener('click', () => {
+                    const value = sidebarSelect.value;
+                    setEJSData(_EJS.player, _EJS.core, _EJS.color, _EJS.pathtodata, GAMES[value].url, GAMES[value].gameName);
+                    loaderJS();
+                    emulator‌Loaded();
+                    exitTimer = setInterval( () => {
+                        exitBtn = document.querySelector(".ejs_start_button");
+                        console.log(12, exitBtn);
+                        if (exitBtn) {
+                            sidebar.classList.add('hidden-sidebar');
+                            returnBtn.style.display = "block";
+                            clearInterval(exitTimer);
+                            exitTimer = null;
+                            loaded = true;
+                        }
+                    }
+                    , 1000);
+
+                }
+                );
+
+                returnToGameSelectionInterface.addEventListener('click', () => {
+                    if (loaded) {
+                        //已加载
+                        const flag = confirm("确定要退出？退出将清空所有数据");
+                        const exitBTN = document.querySelectorAll(".ejs_menu_bar")[0].lastElementChild;
+                        exitBTN.click();
+                        if (flag) {
+                            setTimeout( () => {
+                                const ejs_parent = document.querySelector("#game.ejs_parent");
+                                const ConfirmBTN = document.querySelectorAll(".ejs_cheat_parent button")[1];
+
+                                setEJSData(null, null, null, null, null, null);
+                                sidebar.classList.remove('hidden-sidebar');
+                                const _scripts = document.querySelectorAll("script");
+                                const _links = document.querySelectorAll("link");
+                                for (let i = 0; i < _scripts.length; i++) {
+                                    let src = _scripts[i].src;
+                                    for (let j = 0; j < removeScript.length; j++) {
+                                        if (src.includes(removeScript[j])) {
+                                            _scripts[i].remove();
+                                        }
+                                    }
+                                }
+
+                                for (let i = 0; i < _links.length; i++) {
+                                    let href = _links[i].href;
+                                    for (let j = 0; j < removeScript.length; j++) {
+                                        if (href.includes(removeStyle[j])) {
+                                            _links[i].remove();
+                                        }
+                                    }
+                                }
+                                returnBtn.style.display = "none";
+                                loaded = !loaded;
+                                ConfirmBTN.click();
+
+                                ejs_parent.innerHTML = "";
+                            }
+                            , 200)
+                        } else {
+                            const CancelBTN = document.querySelectorAll(".ejs_cheat_parent button")[2];
+                            CancelBTN.click();
+                            console.log("已取消");
+                        }
+                    } else {
+                        //未加载
+                        console.log(2, loaded);
+                    }
+
+                }
+                )
+
+                function upLoadClick(file) {
+                    sidebarUpLoadBtn.addEventListener('click', () => {
+                        setEJSData(_EJS.player, _EJS.core, _EJS.color, _EJS.pathtodata, file, file.name.slice(0, -4));
+                        loaderJS();
+                        emulator‌Loaded();
+                        exitTimer = setInterval( () => {
+                            exitBtn = document.querySelector(".ejs_start_button");
+                            console.log(4, exitBtn);
+                            if (exitBtn) {
+                                sidebar.classList.add('hidden-sidebar');
+                                returnBtn.style.display = "block";
+                                clearInterval(exitTimer);
+                                exitTimer = null;
+                                loaded = true;
+                            }
+                        }
+                        , 1000);
+                    }
+                    )
+                }
+                uploadfile.addEventListener('change', function(e) {
+
+                    const file = e.target.files[0];
+                    console.log(file)
+                    if (!file)
+                        return;
+
+                    const reader = new FileReader();
+                    // 只读取前4个字节，节省内存
+                    reader.readAsArrayBuffer(file.slice(0, 4));
+
+                    reader.onload = function() {
+                        const view = new Uint8Array(this.result);
+                        // 比较十六进制: 0x4E, 0x45, 0x53, 0x1A
+                        if (view.length === 4 && view[0] === 0x4E && view[1] === 0x45 && view[2] === 0x53 && view[3] === 0x1A) {
+                            console.log('校验通过');
+                            upLoadClick(file)
+                        } else {
+                            alert('上传文件必须为NES 文件');
+                        }
+                    }
+                    ;
+                });
+
+                //侧边栏控制
+                function showSidebar() {
+                    sidebar.classList.remove('hidden-sidebar');
+                    sidebarVisible = true;
+                    showSidebarBtn.style.display = 'none';
+                }
+
+                function hideSidebar() {
+                    sidebar.classList.add('hidden-sidebar');
+                    sidebarVisible = false;
+                    showSidebarBtn.style.display = 'flex';
+                }
+
+                function toggleSidebar() {
+                    if (sidebarVisible) {
+                        hideSidebar();
+                    } else {
+                        showSidebar();
+                    }
+                }
+
+                //切换侧边栏
+                //toggleSidebarBtn.addEventListener('click', toggleSidebar);
+                sidebarCloseBtn.addEventListener('click', hideSidebar);
+                showSidebarBtn.addEventListener('click', showSidebar);
+            </script>
+    </body>
+</html>
